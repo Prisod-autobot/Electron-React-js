@@ -1,25 +1,89 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {
+  HomePage,
+  ListBotPage,
+  ModePage,
+  TutorialPage,
+  MailPage,
+  APIPage,
+  GridConfig,
+  BotDetailPage
+} from './pages/index'
+import Layout from './layout/mainLayout.jsx'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <HomePage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/list-bot"
+            element={
+              <Layout>
+                <ListBotPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/mode-bot"
+            element={
+              <Layout>
+                <ModePage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/tutorial-bot"
+            element={
+              <Layout>
+                <TutorialPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/mail"
+            element={
+              <Layout>
+                <MailPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/api"
+            element={
+              <Layout>
+                <APIPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/grid-config"
+            element={
+              <Layout>
+                <GridConfig />
+              </Layout>
+            }
+          />
+          <Route
+            path="/bot-detail"
+            element={
+              <Layout>
+                <BotDetailPage />
+              </Layout>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
