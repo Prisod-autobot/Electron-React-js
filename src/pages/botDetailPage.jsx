@@ -54,8 +54,8 @@ const BotDetailPage = () => {
 	};
 
 	return (
-		<div>
-			<h2>Check bot</h2>
+		<div className="container mx-auto px-4 pb-8 pt-2">
+			<h1 className="text-xl md:text-2xl font-bold mb-4">Detail</h1>
 			<Link to="/">home</Link>
 			<div className="space-main">
 				{data ? (

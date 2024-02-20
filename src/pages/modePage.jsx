@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const ModePage = () => {
 	return (
-		<div className="h-full">
-			<h1>Mode</h1>
+		<div className="container mx-auto px-4 pb-8 pt-2 h-full">
+			<h1 className="text-xl md:text-2xl font-bold mb-4">Mode</h1>
 			<div className="flex justify-center items-center gap-8 w-full h-full">
 				<div className="bg-white w-2/6 h-3/4 p-4">
 					<p className="text-center">Grid</p>

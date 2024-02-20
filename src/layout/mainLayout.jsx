@@ -3,10 +3,10 @@ import SideBar from "../components/sideBar";
 
 const MainLayout = ({ children }) => {
 	return (
-		<div className="flex h-screen">
+		<div className="flex h-screen bg-white">
 			<SideBar />
-			<div className="flex-1 p-4">
-				<div className="p-4 bg-blue-300 h-full rounded-xl border border-black">
+			<div className="flex-1 p-4 ">
+				<div className="p-4 bg-gray-50 h-full rounded-xl  shadow-au-gold">
 					{children}
 				</div>
 			</div>

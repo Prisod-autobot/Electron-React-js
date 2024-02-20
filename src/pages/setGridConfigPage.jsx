@@ -17,12 +17,17 @@ const SetGridConfigPage = () => {
 	});
 
 	useEffect(() => {
-		ipcRenderer.on("saveDataSuccess", (event, message) => {
+		const handleSaveDataSuccess = (event, message) => {
 			navigate("/bot-detail");
-		});
+		};
+
+		ipcRenderer.on("saveDataSuccess", handleSaveDataSuccess);
 
 		return () => {
-			ipcRenderer.removeAllListeners("saveDataSuccess");
+			ipcRenderer.removeListener(
+				"saveDataSuccess",
+				handleSaveDataSuccess
+			);
 		};
 	}, [navigate]);
 
@@ -38,117 +43,48 @@ const SetGridConfigPage = () => {
 	};
 
 	return (
-		<div>
-			<p>Grid config</p>
-			<form onSubmit={handleSubmit} className="bg-white p-4">
-				<div className="mb-2">
-					<label
-						htmlFor="botName"
-						className="block font-bold text-gray-700 mb-2">
-						Bot name
-					</label>
-
-					<input
-						id="botName"
-						name="botName"
-						type="text"
-						value={formData.botName}
-						onChange={handleChange}
-						className="border p-2 w-full"
-					/>
-				</div>
-
-				<div className="mb-2">
-					<label
-						htmlFor="upZone"
-						className="block font-bold text-gray-700 mb-2">
-						Up zone
-					</label>
-
-					<input
-						id="upZone"
-						name="upZone"
-						type="text"
-						value={formData.upZone}
-						onChange={handleChange}
-						className="border p-2 w-full"
-					/>
-				</div>
-
-				<div className="mb-2">
-					<label
-						htmlFor="lowZone"
-						className="block font-bold text-gray-700 mb-2">
-						Low zone
-					</label>
-
-					<input
-						id="lowZone"
-						name="lowZone"
-						type="text"
-						value={formData.lowZone}
-						onChange={handleChange}
-						className="border p-2 w-full"
-					/>
-				</div>
-
-				<div className="mb-2">
-					<label
-						htmlFor="gridQuantity"
-						className="block font-bold text-gray-700 mb-2">
-						Grid Quantity
-					</label>
-
-					<input
-						id="gridQuantity"
-						name="gridQuantity"
-						type="text"
-						value={formData.gridQuantity}
-						onChange={handleChange}
-						className="border p-2 w-full"
-					/>
-				</div>
-
-				<div className="mb-2">
-					<label
-						htmlFor="gridStep"
-						className="block font-bold text-gray-700 mb-2">
-						Grid step
-					</label>
-
-					<input
-						id="gridStep"
-						name="gridStep"
-						type="text"
-						value={formData.gridStep}
-						onChange={handleChange}
-						className="border p-2 w-full"
-					/>
-				</div>
-
-				<div className="mb-2">
-					<label
-						htmlFor="pair"
-						className="block font-bold text-gray-700 mb-2">
-						Pair
-					</label>
-
-					<select
-						name="pair"
-						id="pair"
-						value={formData.pair}
-						onChange={handleChange}
-						className="border p-2 w-full">
-						<option value="BTC/USDT">BTC/USDT</option>
-						<option value="BTC/USDC">BTC/USDC</option>
-						<option value="ETH/USDT">ETH/USDT</option>
-						<option value="BTC/FDUSD">BTC/FDUSD</option>
-					</select>
-				</div>
-
+		<div className="container mx-auto px-4 pb-8 pt-2">
+			<h1 className="text-xl md:text-2xl font-bold mb-4">
+				Grid Configuration
+			</h1>
+			<form
+				onSubmit={handleSubmit}
+				className="bg-white shadow rounded-lg p-6">
+				{Object.entries(formData).map(([key, value]) => (
+					<div key={key} className="mb-4">
+						<label
+							htmlFor={key}
+							className="block text-gray-700 font-medium mb-2 capitalize">
+							{key.replace(/([A-Z])/g, " $1").trim()}{" "}
+							{/* Adding space before capital letters */}
+						</label>
+						{key === "pair" ? (
+							<select
+								id={key}
+								name={key}
+								value={value}
+								onChange={handleChange}
+								className="shadow border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline">
+								<option value="BTC/USDT">BTC/USDT</option>
+								<option value="BTC/USDC">BTC/USDC</option>
+								<option value="ETH/USDT">ETH/USDT</option>
+								<option value="BTC/FDUSD">BTC/FDUSD</option>
+							</select>
+						) : (
+							<input
+								id={key}
+								name={key}
+								type="text"
+								value={value}
+								onChange={handleChange}
+								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							/>
+						)}
+					</div>
+				))}
 				<button
 					type="submit"
-					className="bg-blue-500 text-white px-4 py-2 rounded font-medium">
+					className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
 					Save
 				</button>
 			</form>
