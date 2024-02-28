@@ -19,7 +19,6 @@ const KeyConfigPage = () => {
 	};
 
 	const handleKeyPress = e => {
-		// Allow only number and one dot
 		if (
 			!/[0-9.]/.test(e.key) ||
 			(e.key === "." && e.target.value.includes("."))
@@ -36,20 +35,22 @@ const KeyConfigPage = () => {
 	const isDisabled = Object.values(formData).some(value => value === "");
 
 	return (
-		<div className="card container mx-auto px-4 pb-8 pt-2">
+		<div className="container mx-auto px-4 pb-8 pt-2">
 			<h1 className="text-xl md:text-2xl font-bold mb-4">
 				API/Secret Configuration
 			</h1>
 			<form
 				onSubmit={handleSubmit}
-				className="bg-red-200 rounded px-8 pt-6 pb-8 mb-4 max-h-fit">
+				className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 overflow-hidden">
 				{Object.entries(formData).map(([key, value]) =>
 					key !== "exchangeName" && key !== "zoneCalculator" ? (
-						<div key={key} className="mb-4">
+						<div
+							key={key}
+							className="mb-4 flex items-center justify-between">
 							<label
 								htmlFor={key}
-								className="block text-gray-700 text-sm font-bold mb-1 capitalize">
-								{key.replace(/([A-Z])/g, " $1").trim()}
+								className="block text-right w-[80px] text-gray-700 text-sm font-bold mr-2 capitalize flex-none">
+								{key.replace(/([A-Z])/g, " $1").trim()}:
 							</label>
 							<input
 								id={key}
@@ -66,18 +67,20 @@ const KeyConfigPage = () => {
 							/>
 						</div>
 					) : (
-						<div key={key} className="mb-4">
+						<div
+							key={key}
+							className="mb-4 flex items-center justify-between">
 							<label
 								htmlFor={key}
-								className="block text-gray-700 text-sm font-bold mb-2 capitalize">
-								{key.replace(/([A-Z])/g, " $1").trim()}
+								className="block text-right text-gray-700 text-sm font-bold mr-2 capitalize flex-none">
+								{key.replace(/([A-Z])/g, " $1").trim()}:
 							</label>
 							<select
 								id={key}
 								name={key}
 								value={value}
 								onChange={handleChange}
-								className="shadow border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline">
+								className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
 								{key === "exchangeName"
 									? ["Bybit", "Kraken", "Binance"].map(
 											option => (
@@ -100,9 +103,9 @@ const KeyConfigPage = () => {
 				<button
 					type="submit"
 					disabled={isDisabled}
-					className={`text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+					className={`w-full mt-4 py-2 px-4 rounded focus:outline-none text-white font-bold ${
 						isDisabled
-							? "bg-gray-500"
+							? "bg-gray-400"
 							: "bg-blue-500 hover:bg-blue-700"
 					}`}>
 					Save
