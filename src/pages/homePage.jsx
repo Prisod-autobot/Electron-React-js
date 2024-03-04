@@ -5,6 +5,7 @@ const { ipcRenderer } = window.require("electron");
 
 const HomePage = () => {
 	const [data, setData] = useState([]);
+	const [totalBalance, setTotalBalance] = useState(0);
 	const [statusCounts, setStatusCounts] = useState({
 		Grid: { true: 0, false: 0 },
 		ReBalance: { true: 0, false: 0 },
@@ -21,6 +22,12 @@ const HomePage = () => {
 				const formattedData = dataFromDatabase.map(bot => ({
 					...bot.dataValues,
 				}));
+				// Calculate total balance
+				const total = formattedData.reduce(
+					(acc, curr) => acc + (curr.budget || 0),
+					0
+				);
+				setTotalBalance(total); // Update total balance state
 				setData(formattedData);
 
 				// Process the data to count statuses
@@ -68,7 +75,7 @@ const HomePage = () => {
 					<div className="basis-1/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">Total Balance</p>
 						<p className="font-mono text-2xl text-center mt-2">
-							5,000
+							{totalBalance.toLocaleString()}
 						</p>
 					</div>
 					<div className="basis-1/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
@@ -85,8 +92,8 @@ const HomePage = () => {
 							{statusCounts.Grid.true + statusCounts.Grid.false}{" "}
 							Robot
 						</p>
-						<div className="flex justify-center">
-							<PieChart width={200} height={200}>
+						<div className="flex justify-center max-w-full">
+							<PieChart width={500} height={250}>
 								<Pie
 									data={pieData.Grid}
 									cx="50%"

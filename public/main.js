@@ -3,6 +3,7 @@ const db_connect = require('../src/db/connf');
 const path = require('path');
 const { insertGridData, deleteGridData } = require('../src/controllers/gridController');
 const { insertGridBotData, findAllBotData, findOneByBotName, updateBotData, deleteBotData, setAllBotStatusesToFalse } = require('../src/controllers/botController');
+const { findAllBotTransaction } = require('../src/controllers/grid_historyController');
 
 require('../src/models/botModel')
 require('../src/models/gridHistoryModel')
@@ -23,14 +24,14 @@ function createWindow() {
         },
     });
     app.isPackaged
-    ? mainWindow.loadFile(path.join(__dirname, "index.html"))
-    : mainWindow.loadURL("http://localhost:7070");
-    
+        ? mainWindow.loadFile(path.join(__dirname, "index.html"))
+        : mainWindow.loadURL("http://localhost:7070");
+
 
     mainWindow.on("closed", function () {
         mainWindow = null;
     });
-    
+
 }
 
 db_connect
@@ -67,6 +68,17 @@ ipcMain.handle('get-all-data', async (event, args) => {
     }
 });
 
+
+ipcMain.handle('get-all-history-grid', async (event, data) => {
+    try {
+        const response = await findAllBotTransaction(data);
+        return response;
+    } catch (error) {
+        console.error('Error retrieving data:', error);
+        throw error;
+    }
+});
+
 ipcMain.handle('get-one-data', async (event, data) => {
     try {
         const response = await findOneByBotName(data);
@@ -80,12 +92,12 @@ ipcMain.handle('get-one-data', async (event, data) => {
 ipcMain.on('update-grid', async (event, { botName }) => {
     try {
         const kk = await updateBotData(botName);
-        if(kk){
+        if (kk) {
             let grid_bot_instance = await new Grid_bot(botName)
-            
+
             event.sender.send("updateDataSuccess", "Data updated successfully");
         }
-        else{
+        else {
             event.sender.send("updateDataSuccess", "Data updated successfully");
         }
     } catch (error) {
