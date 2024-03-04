@@ -15,6 +15,7 @@ const BotDetailPage = () => {
 					"get-one-data",
 					detail
 				);
+				console.log(detail);
 				setData(dataFromDatabase);
 			} catch (error) {
 				console.error("Error fetching data from database:", error);

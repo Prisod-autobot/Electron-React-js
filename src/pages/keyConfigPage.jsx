@@ -34,6 +34,16 @@ const KeyConfigPage = () => {
 
 	const isDisabled = Object.values(formData).some(value => value === "");
 
+	// Function to paste clipboard content
+	const handlePaste = async field => {
+		try {
+			const text = await navigator.clipboard.readText();
+			setFormData(prevFormData => ({ ...prevFormData, [field]: text }));
+		} catch (error) {
+			console.error("Failed to read clipboard contents: ", error);
+		}
+	};
+
 	return (
 		<div className="container mx-auto px-4 pb-8 pt-2">
 			<h1 className="text-xl md:text-2xl font-bold mb-4">
@@ -65,6 +75,14 @@ const KeyConfigPage = () => {
 								}
 								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 							/>
+							{(key === "apiKey" || key === "secretKey") && (
+								<button
+									type="button"
+									onClick={() => handlePaste(key)}
+									className="ml-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm">
+									Paste
+								</button>
+							)}
 						</div>
 					) : (
 						<div

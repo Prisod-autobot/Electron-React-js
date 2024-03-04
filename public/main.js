@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const db_connect = require('../src/db/connf');
 
 const { insertGridData, deleteGridData } = require('../src/controllers/gridController');
-const { insertGridBotData, findAllBotData, findOneByBotName, updateBotData, deleteBotData } = require('../src/controllers/botController');
+const { insertGridBotData, findAllBotData, findOneByBotName, updateBotData, deleteBotData, setAllBotStatusesToFalse } = require('../src/controllers/botController');
 
 require('../src/models/botModel')
 require('../src/models/gridHistoryModel')
@@ -94,8 +94,20 @@ ipcMain.on('delete-grid', async (event, { botName }) => {
     }
 });
 
-app.on("window-all-closed", function () {
-    if (process.platform !== "darwin") app.quit();
+
+app.on("window-all-closed", async (event) => {
+    event.preventDefault();
+
+    try {
+        await setAllBotStatusesToFalse();
+        console.log("Bot status updated, app will now quit.");
+
+        if (process.platform !== "darwin") app.quit();
+    } catch (error) {
+        console.error("Error setting bot statuses to false:", error);
+        if (process.platform !== "darwin") app.quit();
+    }
+
 });
 
 

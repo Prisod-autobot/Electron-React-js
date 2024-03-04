@@ -89,6 +89,19 @@ async function updateBotData(botName) {
   }
 }
 
+async function setAllBotStatusesToFalse() {
+  try {
+    await BotModel.update(
+      { status: false },
+      { where: {} }
+    );
+    console.log("All bot statuses updated to false successfully.");
+  } catch (error) {
+    console.error("Error updating bot statuses:", error);
+    throw error;
+  }
+}
+
 
 
 async function deleteBotData(botName) {
@@ -115,4 +128,5 @@ module.exports = {
   findAllBotData,
   updateBotData,
   deleteBotData,
+  setAllBotStatusesToFalse,
 };

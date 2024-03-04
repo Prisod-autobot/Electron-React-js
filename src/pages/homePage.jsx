@@ -62,13 +62,9 @@ const HomePage = () => {
 			className="container mx-auto px-4 pb-8 pt-2">
 			<div className="flex gap-4 min-h-[580px]">
 				<div className="flex flex-col w-1/2 gap-4">
-					<motion.div
-						initial={{ x: -100, opacity: 0 }}
-						animate={{ x: 0, opacity: 1 }}
-						transition={{ delay: 0.2 }}
-						className="basis-3/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
+					<div className="basis-3/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">-Monthly Report-</p>
-					</motion.div>
+					</div>
 					<div className="basis-1/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">Total Balance</p>
 						<p className="font-mono text-2xl text-center mt-2">

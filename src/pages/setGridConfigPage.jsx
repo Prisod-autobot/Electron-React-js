@@ -19,7 +19,7 @@ const SetGridConfigPage = () => {
 
 	useEffect(() => {
 		const handleSaveDataSuccess = (event, message) => {
-			navigate("/bot-detail");
+			navigate("/bot-detail", { state: formData.botName });
 		};
 
 		ipcRenderer.on("saveDataSuccess", handleSaveDataSuccess);
@@ -49,7 +49,7 @@ const SetGridConfigPage = () => {
 
 	const handleSubmit = async e => {
 		e.preventDefault();
-		const combinedData = { ...dataFromPage1, ...formData };
+		const combinedData = await { ...dataFromPage1, ...formData };
 		ipcRenderer.send("form-data", combinedData);
 	};
 
