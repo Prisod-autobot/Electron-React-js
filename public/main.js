@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const db_connect = require('../src/db/connf');
-
+const path = require('path');
 const { insertGridData, deleteGridData } = require('../src/controllers/gridController');
 const { insertGridBotData, findAllBotData, findOneByBotName, updateBotData, deleteBotData, setAllBotStatusesToFalse } = require('../src/controllers/botController');
 
@@ -9,6 +9,7 @@ require('../src/models/gridHistoryModel')
 require('../src/models/gridModel')
 require('../src/models/reBalanceHistoryModel')
 require('../src/models/reBalanceModel')
+const Grid_bot = require('../src/backend/Grid_bot')
 
 let mainWindow;
 
@@ -21,12 +22,15 @@ function createWindow() {
             contextIsolation: false,
         },
     });
-
-    mainWindow.loadURL("http://localhost:7070");
+    app.isPackaged
+    ? mainWindow.loadFile(path.join(__dirname, "index.html"))
+    : mainWindow.loadURL("http://localhost:7070");
+    
 
     mainWindow.on("closed", function () {
         mainWindow = null;
     });
+    
 }
 
 db_connect
@@ -75,8 +79,15 @@ ipcMain.handle('get-one-data', async (event, data) => {
 
 ipcMain.on('update-grid', async (event, { botName }) => {
     try {
-        await updateBotData(botName);
-        event.sender.send("updateDataSuccess", "Data updated successfully");
+        const kk = await updateBotData(botName);
+        if(kk){
+            let grid_bot_instance = await new Grid_bot(botName)
+            
+            event.sender.send("updateDataSuccess", "Data updated successfully");
+        }
+        else{
+            event.sender.send("updateDataSuccess", "Data updated successfully");
+        }
     } catch (error) {
         console.error(error);
         event.sender.send("DataError", "Error saving data");

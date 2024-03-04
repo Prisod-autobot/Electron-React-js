@@ -3,7 +3,10 @@ const db_connect = require('../db/connf');
 
 const ReBalanceHistory = db_connect.define(
   'HistoryReBalance',
-  {
+  { bot_name: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
     id_transaction: {
       type: DataTypes.INTEGER,
       primaryKey: true,

@@ -3,7 +3,9 @@ const db_connect = require('../db/connf');
 
 const GridHistory = db_connect.define(
   'HistoryGrid',
-  {
+  { bot_name: {
+      type: DataTypes.TEXT
+    },
     id_transaction: {
       type: DataTypes.INTEGER,
       primaryKey: true,

@@ -35,16 +35,29 @@ async function insertGridData(botConfigData) {
 }
 
 async function findOneByBotName(botName) {
+    console.log("xxxxxx",botName)
     try {
-        const bot = await GridModel.findOne({
-            where: { bot_name: botName }
-        });
+        const bot = await GridModel.findOne({where:{bot_name:botName},});
         return bot;
     } catch (error) {
-        console.error(error);
-        throw error;
+        console.error("Error fetching data from database:", error);
     }
 }
+
+async function findOneByBotID(botID) {
+    try {
+        const bot = await ipcRenderer.invoke(
+            "get-one-data",
+            botID
+        );
+        return bot;
+    } catch (error) {
+        console.error("Error fetching data from database:", error);
+    }
+}
+
+
+
 
 async function findAllGridData() {
     try {
@@ -99,4 +112,5 @@ module.exports = {
     findAllGridData,
     updateGridData,
     deleteGridData,
+    findOneByBotID
 };
