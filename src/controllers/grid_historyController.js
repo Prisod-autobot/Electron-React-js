@@ -23,6 +23,21 @@ async function findOneByIdTransaction(idTransaction,botname) {
     }
 }
 
+async function findAllBotTransaction(botname) {
+    try {
+        const history = await GridHistory.findAll({
+            where: { bot_name : botname  },
+        });
+        return history;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+
+
+
 async function find_status_buy_open(botname) {
     try {
         const history = await GridHistory.findAll({
@@ -177,6 +192,7 @@ module.exports = {
     updateGrid_idsell,
     buy_logic,
     sell_logic,
-    list_wait_sell
+    list_wait_sell,
+    findAllBotTransaction
 
 };
