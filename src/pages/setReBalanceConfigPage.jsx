@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 const { ipcRenderer } = window.require("electron");
 
-const SetGridConfigPage = () => {
+const SetReBalanceConfigPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const dataFromPage1 = location.state;
 
 	const [formData, setFormData] = useState({
 		botName: "",
-		upZone: "",
-		lowZone: "",
-		gridQuantity: "",
-		gridStep: "",
-		pair: "BTC/USDT", // This field has a default value, so it's always considered filled.
+		asset_ratio: "",
+		cash_ratio: "",
+		difference: "",
+		pair: "BTC/USDT",
 	});
 	const [isFormValid, setIsFormValid] = useState(false);
 
@@ -112,10 +111,9 @@ const SetGridConfigPage = () => {
 								onChange={handleChange}
 								onKeyDown={
 									[
-										"upZone",
-										"lowZone",
-										"gridQuantity",
-										"gridStep",
+										"asset_ratio",
+										"cash_ratio",
+										"difference",
 									].includes(key)
 										? handleKeyPress
 										: undefined
@@ -140,4 +138,4 @@ const SetGridConfigPage = () => {
 	);
 };
 
-export default SetGridConfigPage;
+export default SetReBalanceConfigPage;

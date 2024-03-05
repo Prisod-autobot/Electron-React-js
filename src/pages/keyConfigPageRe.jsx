@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const KeyConfigPage = () => {
+const KeyConfigPageRe = () => {
 	const navigate = useNavigate();
 
 	const [formData, setFormData] = useState({
@@ -10,7 +10,6 @@ const KeyConfigPage = () => {
 		amount: "",
 		budget: "",
 		exchangeName: "Bybit",
-		zoneCalculator: "1",
 	});
 
 	const handleChange = e => {
@@ -41,13 +40,12 @@ const KeyConfigPage = () => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		formData.grid_id = "Grid";
-		navigate("/grid-config", { state: formData });
+		formData.grid_id = "Rebalance";
+		navigate("/reb-config", { state: formData });
 	};
 
 	const isDisabled = Object.values(formData).some(value => value === "");
 
-	// Function to paste clipboard content
 	const handlePaste = async field => {
 		try {
 			const text = await navigator.clipboard.readText();
@@ -66,7 +64,7 @@ const KeyConfigPage = () => {
 				onSubmit={handleSubmit}
 				className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 overflow-hidden">
 				{Object.entries(formData).map(([key, value]) =>
-					key !== "exchangeName" && key !== "zoneCalculator" ? (
+					key !== "exchangeName" ? (
 						<div
 							key={key}
 							className="mb-4 flex items-center justify-between">
@@ -114,21 +112,11 @@ const KeyConfigPage = () => {
 								value={value}
 								onChange={handleChange}
 								className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-								{key === "exchangeName"
-									? ["Bybit", "Kraken", "Binance"].map(
-											option => (
-												<option
-													key={option}
-													value={option}>
-													{option}
-												</option>
-											)
-									  )
-									: ["1", "2"].map(option => (
-											<option key={option} value={option}>
-												{option}
-											</option>
-									  ))}
+								{["Bybit", "Kraken", "Binance"].map(option => (
+									<option key={option} value={option}>
+										{option}
+									</option>
+								))}
 							</select>
 						</div>
 					)
@@ -148,4 +136,4 @@ const KeyConfigPage = () => {
 	);
 };
 
-export default KeyConfigPage;
+export default KeyConfigPageRe;

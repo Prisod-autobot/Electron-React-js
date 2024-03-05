@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTable } from "react-table";
 
 const { ipcRenderer } = window.require("electron");
 
 function useFetchData(detail) {
-	const navigate = useNavigate();
 	const [data, setData] = useState(null);
 	const [tableView, setTableView] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -34,7 +34,7 @@ function useFetchData(detail) {
 			}
 		};
 
-		fetchData();
+		fetchData(); // Call fetchData once immediately
 
 		const updateListener = (event, message) => fetchData();
 		const deleteListener = () => navigate("/list-bot");
@@ -55,9 +55,24 @@ const BotDetailPage = () => {
 	const location = useLocation();
 	const { data, tableView, isLoading } = useFetchData(location.state);
 
-	const clickDelete = useCallback(delete_name => {
-		if (window.confirm("Are you sure you want to delete this bot?")) {
-			ipcRenderer.send("delete-grid", { botName: delete_name });
+	const clickDelete = useCallback((delete_name, type_bot) => {
+		switch (type_bot) {
+			case "Grid":
+				if (
+					window.confirm("Are you sure you want to delete this bot?")
+				) {
+					ipcRenderer.send("delete-grid", { botName: delete_name });
+				}
+				break;
+			case "Rebalance":
+				if (
+					window.confirm("Are you sure you want to delete this bot?")
+				) {
+					ipcRenderer.send("delete-reba", { botName: delete_name });
+				}
+				break;
+			default:
+				console.error("something went wrong");
 		}
 	}, []);
 
@@ -110,7 +125,10 @@ const BotDetailPage = () => {
 							<button
 								className="border border-gray-400 bg-red-200 text-black p-2"
 								onClick={() =>
-									clickDelete(data.dataValues.bot_name)
+									clickDelete(
+										data.dataValues.bot_name,
+										data.dataValues.type_bot
+									)
 								}>
 								Delete
 							</button>

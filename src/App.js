@@ -7,7 +7,9 @@ import {
   MailPage,
   APIPage,
   GridConfig,
-  BotDetailPage
+  BotDetailPage,
+  KeyConfigPageRe,
+  SetReBalanceConfigPage
 } from './pages/index'
 import Layout from './layout/mainLayout.jsx'
 
@@ -77,6 +79,22 @@ function App() {
             element={
               <Layout>
                 <BotDetailPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/api-reb"
+            element={
+              <Layout>
+                <KeyConfigPageRe />
+              </Layout>
+            }
+          />
+          <Route
+            path="/reb-config"
+            element={
+              <Layout>
+                <SetReBalanceConfigPage />
               </Layout>
             }
           />

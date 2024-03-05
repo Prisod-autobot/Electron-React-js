@@ -10,6 +10,7 @@ const HomePage = () => {
 		Grid: { true: 0, false: 0 },
 		ReBalance: { true: 0, false: 0 },
 	});
+	const [dailyProfits, setDailyProfits] = useState({}); // New state for daily profits
 
 	const COLORS = ["#00C49F", "#FFBB28"];
 
@@ -19,9 +20,26 @@ const HomePage = () => {
 				const dataFromDatabase = await ipcRenderer.invoke(
 					"get-all-data"
 				);
+				const profitDaily = await ipcRenderer.invoke(
+					"get-history-money"
+				);
+
+				// Process profitDaily to calculate daily profits
+				const dailySums = profitDaily.reduce((acc, curr) => {
+					const date = curr.date_sell; // Assuming date_sell is in 'YYYY-MM-DD' format
+					if (!acc[date]) {
+						acc[date] = 0;
+					}
+					acc[date] += curr.price_sell;
+					return acc;
+				}, {});
+
+				setDailyProfits(dailySums); // Update daily profits state
+
 				const formattedData = dataFromDatabase.map(bot => ({
 					...bot.dataValues,
 				}));
+
 				// Calculate total balance
 				const total = formattedData.reduce(
 					(acc, curr) => acc + (curr.budget || 0),
@@ -75,14 +93,12 @@ const HomePage = () => {
 					<div className="basis-1/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">Total Balance</p>
 						<p className="font-mono text-2xl text-center mt-2">
-							{totalBalance.toLocaleString()}
+							{totalBalance.toLocaleString()} $
 						</p>
 					</div>
 					<div className="basis-1/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">Daily Profit</p>
-						<p className="font-mono text-2xl text-center mt-2 text-green-500">
-							+5,000
-						</p>
+						<p className="font-mono text-2xl text-center mt-2 text-green-500"></p>
 					</div>
 				</div>
 				<div className="flex flex-col w-1/2 gap-4">

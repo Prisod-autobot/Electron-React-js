@@ -6,3 +6,5 @@ export { default as MailPage } from './mailPage';
 export { default as APIPage } from './keyConfigPage';
 export { default as GridConfig } from './setGridConfigPage';
 export { default as BotDetailPage } from './botDetailPage';
+export { default as KeyConfigPageRe } from './keyConfigPageRe';
+export { default as SetReBalanceConfigPage } from './setReBalanceConfigPage';
