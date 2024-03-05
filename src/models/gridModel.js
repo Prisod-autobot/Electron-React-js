@@ -62,7 +62,7 @@ const Grid = db_connect.define(
   },
   {
     tableName: 'grid_config',
-    timestamps: false
+    timestamps: true
   }
 )
 

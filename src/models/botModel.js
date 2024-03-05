@@ -54,7 +54,7 @@ const BotConfig = db_connect.define(
   },
   {
     tableName: 'bot_config',
-    timestamps: false
+    timestamps: true
   }
 )
 

@@ -52,7 +52,7 @@ const ReBalance = db_connect.define(
   },
   {
     tableName: 're_balance_config',
-    timestamps: false
+    timestamps: true
   }
 )
 

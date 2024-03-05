@@ -79,6 +79,8 @@ const SetGridConfigPage = () => {
 								<option value="BTC/USDC">BTC/USDC</option>
 								<option value="ETH/USDT">ETH/USDT</option>
 								<option value="BTC/FDUSD">BTC/FDUSD</option>
+								<option value="WLD/USDT">WLD/USDT</option>
+								<option value="XRP/USDT">XRP/USDT</option>
 							</select>
 						) : (
 							<input

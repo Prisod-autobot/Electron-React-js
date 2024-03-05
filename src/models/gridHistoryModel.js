@@ -62,7 +62,7 @@ const GridHistory = db_connect.define(
   },
   {
     tableName: 'history_grid',
-    timestamps: false
+    timestamps: true
   }
 )
 

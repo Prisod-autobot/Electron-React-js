@@ -39,7 +39,7 @@ const ReBalanceHistory = db_connect.define(
   },
   {
     tableName: 're_balance_db',
-    timestamps: false
+    timestamps: true
   }
 )
 
