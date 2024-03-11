@@ -72,17 +72,23 @@ async function transactionLogic(zoneIndex, botName, operation) {
 }
 
 async function findLastTransactionBot(botName) {
-    return executeDbOperation(async () => {
-        const lastTransaction = await reBalanceHistory.findOne({
-            where: { bot_name: botName }, // Filter by bot_name
-            order: [['createdAt', 'DESC']], // Order by createdAt descending (newest first)
-            limit: 1, // Limit to 1 result (last transaction)
+    try {
+        return await executeDbOperation(async () => {
+            const lastTransaction = await reBalanceHistory.findOne({
+                where: { bot_name: botName }, // Filter by bot_name
+                order: [['createdAt', 'DESC']], // Order by createdAt descending (newest first)
+                limit: 1, // Limit to 1 result (last transaction)
+            });
+
+            return lastTransaction['dataValues']; // Return the last transaction
         });
-
-
-        return lastTransaction['dataValues']; // Return the last transaction
-    });
+    } catch (error) {
+        // Handle the error here
+        console.error("An error occurred:", error);
+        return false
+    }
 }
+
 
 
 

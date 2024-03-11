@@ -13,7 +13,8 @@ class Protocol {
       this.exchange = new this.exchangeClass({
         'apiKey': apiKey,
         'secret': secret,
-        "options": { 'defaultType': 'spot' }
+        "options": { 'defaultType': 'spot',
+                        'recvWindow': 10000, }
 
       });
     } else {
@@ -23,6 +24,7 @@ class Protocol {
 
   async get_price() {
     try {
+      console.log('----------------------------------')
       const ticker = await this.exchange.fetchTicker(this.symbol);
       await delay(1000);
       console.log(`${this.symbol} Ticker:`, ticker);

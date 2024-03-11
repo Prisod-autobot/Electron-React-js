@@ -1,4 +1,4 @@
-import Math from 'math'
+const Math = require('math');
 const Protocol = require('./Protocol');
 const reBalanceModel = require('../models/reBalanceModel');
 const {
@@ -27,20 +27,28 @@ class reBalance_bot {
         this.protocol = new Protocol(this.exchange_name, this.pair, this.apikey, this.secretkey);
         this.asset_value = this.budget * this.asset_ratio
         this.cash_value = this.budget * this.cash_ratio
+        
       } catch (error) {
         console.error(error);
       } finally {
-        await this.run_bot()
+       
+        await this.init_order()
       }
 
     })();
   }
 
+
+
+
+
+
   async init_order() {
     try {
-      let price = this.protocol.get_price()
+      
+      let price = await this.protocol.get_price()
       let amount = this.asset_value / price
-      let order_info = this.protocol.placeOrder_buy(amount, price)
+      let order_info = await this.protocol.placeOrder_buy(amount, price)
       let order_id = order_info['id']
       let data = {
         bot_name: this.botname,
@@ -53,7 +61,8 @@ class reBalance_bot {
         Rebalance_difference: 0,
       };
       await insertreBalanceHistoryData(data)
-      while (await this.protocol.get_id_info(order_id) !== 'closed') { }
+      console.log("INITI SUCK")
+      this.run_bot()
     } catch (error) {
       console.error(error);
     }
@@ -63,10 +72,10 @@ class reBalance_bot {
 
   async run_bot() {
     try {
-      await this.init_order()
-      datainfo = await findLastTransactionBot(this.botname)
-      old_price = datainfo['Price']
-      new_price = await this.protocol.get_price()
+
+      let datainfo = await findLastTransactionBot(this.botname)
+      let old_price = datainfo['Price']
+      let new_price = await this.protocol.get_price()
       if (Math.abs(old_price - new_price) > this.difference && old_price - new_price > 0) {
         //ราคาตกซื้อเพิ่ม
         let price = new_price
@@ -118,3 +127,6 @@ class reBalance_bot {
 
 
 }
+
+
+module.exports = reBalance_bot;

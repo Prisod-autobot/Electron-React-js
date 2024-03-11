@@ -14,7 +14,7 @@ require('../src/models/gridModel')
 require('../src/models/reBalanceHistoryModel')
 require('../src/models/reBalanceModel')
 const Grid_bot = require('../src/backend/Grid_bot')
-
+const Rebalance_bot = require('../src/backend/Rebalance_bot')
 let mainWindow;
 
 function createWindow() {
@@ -196,7 +196,7 @@ ipcMain.on('update-grid', async (event, { botName, typeBot }) => {
             case "Grid":
 
                 if (kk) {
-                    //let grid_bot_instance = await new Grid_bot(botName)
+                    let grid_bot_instance = await new Grid_bot(botName)
 
                     event.sender.send("updateDataSuccess", "Data updated successfully");
                 }
@@ -207,8 +207,7 @@ ipcMain.on('update-grid', async (event, { botName, typeBot }) => {
 
             case "Rebalance":
                 if (kk) {
-                    //let grid_bot_instance = await new Grid_bot(botName)
-
+                    let reBalance_bot_instance = await new Rebalance_bot(botName)
                     event.sender.send("updateDataSuccess", "Data updated successfully");
                 }
                 else {
