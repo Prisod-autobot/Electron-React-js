@@ -117,6 +117,18 @@ const CombinedConfigPage = () => {
 		return requiredFields.some(field => formData[field].trim() === "");
 	};
 
+	const isFormIncompleteTwo = () => {
+		// Add or remove fields based on your form's requirements
+		const requiredFields = [
+			"botName",
+			"upZone",
+			"lowZone",
+			"gridQuantity",
+			"gridStep",
+		];
+		return requiredFields.some(field => formData[field].trim() === "");
+	};
+
 	return (
 		<div className="container mx-auto px-4 pb-8 pt-2">
 			<h1 className="text-xl md:text-2xl font-bold mb-4">Grid Config</h1>
@@ -578,7 +590,12 @@ const CombinedConfigPage = () => {
 							</button>
 							<button
 								type="submit"
-								className="rounded bg-blue-500 text-white px-4 py-2 mt-4">
+								disabled={isFormIncompleteTwo()} // Disable button if any required field is empty
+								className={`rounded px-4 py-2 mt-4 justify-end ${
+									isFormIncompleteTwo()
+										? "bg-gray-500 text-white"
+										: "bg-blue-500 text-white"
+								}`}>
 								Save
 							</button>
 						</form>
