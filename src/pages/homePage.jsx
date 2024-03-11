@@ -8,7 +8,7 @@ const HomePage = () => {
 	const [totalBalance, setTotalBalance] = useState(0);
 	const [statusCounts, setStatusCounts] = useState({
 		Grid: { true: 0, false: 0 },
-		ReBalance: { true: 0, false: 0 },
+		Rebalance: { true: 0, false: 0 },
 	});
 	const [dailyProfits, setDailyProfits] = useState({}); // New state for daily profits
 
@@ -23,7 +23,7 @@ const HomePage = () => {
 				const profitDaily = await ipcRenderer.invoke(
 					"get-history-money"
 				);
-
+				console.log(dataFromDatabase);
 				// Process profitDaily to calculate daily profits
 				const dailySums = profitDaily.reduce((acc, curr) => {
 					const date = curr.date_sell; // Assuming date_sell is in 'YYYY-MM-DD' format
@@ -51,7 +51,7 @@ const HomePage = () => {
 				// Process the data to count statuses
 				const counts = {
 					Grid: { true: 0, false: 0 },
-					ReBalance: { true: 0, false: 0 },
+					Rebalance: { true: 0, false: 0 },
 				};
 				formattedData.forEach(bot => {
 					if (counts[bot.type_bot]) {
@@ -73,9 +73,9 @@ const HomePage = () => {
 			{ name: "Active", value: statusCounts.Grid.true },
 			{ name: "Sleep", value: statusCounts.Grid.false },
 		],
-		ReBalance: [
-			{ name: "Active", value: statusCounts.ReBalance.true },
-			{ name: "Sleep", value: statusCounts.ReBalance.false },
+		Rebalance: [
+			{ name: "Active", value: statusCounts.Rebalance.true },
+			{ name: "Sleep", value: statusCounts.Rebalance.false },
 		],
 	};
 
@@ -135,14 +135,14 @@ const HomePage = () => {
 					<div className="basis-1/2 w-full bg-gray-50 shadow-re-don rounded-sm p-3 ">
 						<p className="font-mono text-lg">
 							Total Re-Balance Trading Status -{" "}
-							{statusCounts.ReBalance.true +
-								statusCounts.ReBalance.false}{" "}
+							{statusCounts.Rebalance.true +
+								statusCounts.Rebalance.false}{" "}
 							Robot
 						</p>
 						<div className="flex justify-center">
-							<PieChart width={200} height={200}>
+							<PieChart width={500} height={250}>
 								<Pie
-									data={pieData.ReBalance}
+									data={pieData.Rebalance}
 									cx="50%"
 									cy="50%"
 									labelLine={false}
@@ -152,7 +152,7 @@ const HomePage = () => {
 									outerRadius={50}
 									fill="#8884d8"
 									dataKey="value">
-									{pieData.ReBalance.map((entry, index) => (
+									{pieData.Rebalance.map((entry, index) => (
 										<Cell
 											key={`cell-${index}`}
 											fill={COLORS[index % COLORS.length]}

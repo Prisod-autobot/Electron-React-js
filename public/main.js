@@ -17,17 +17,37 @@ const Grid_bot = require('../src/backend/Grid_bot')
 let mainWindow;
 
 function createWindow() {
+    let splash = new BrowserWindow({
+        width: 810,
+        height: 610,
+        transparent: true,
+        frame: false,
+        alwaysOnTop: true
+    });
+    splash.loadFile("./logo512.png");
+
     mainWindow = new BrowserWindow({
+        icon: path.join(__dirname, "logo512.png"),
         width: 1280,
         height: 720,
+        minWidth: 1280,
+        minHeight: 980,
+        show: false, // Do not show initially
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
         },
     });
-    app.isPackaged
-        ? mainWindow.loadFile(path.join(__dirname, "index.html"))
-        : mainWindow.loadURL("http://localhost:7070");
+    const mainURL = app.isPackaged
+        ? `file://${path.join(__dirname, "index.html")}`
+        : "http://localhost:7070";
+
+    mainWindow.loadURL(mainURL);
+
+    mainWindow.once("ready-to-show", () => {
+        splash.destroy(); // Close the splash screen
+        mainWindow.show(); // Show the main window
+    });
 
 
     mainWindow.on("closed", function () {

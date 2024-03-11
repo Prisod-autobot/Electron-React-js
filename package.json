@@ -1,5 +1,6 @@
 {
-  "name": "erectron-react",
+  "name": "main",
+  "productName": "Auto-Bot",
   "version": "1.0.0",
   "author":"Tight & DAZ Co.,Ltd",
   "private": true,

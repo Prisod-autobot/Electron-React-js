@@ -5,11 +5,9 @@ import {
   ModePage,
   TutorialPage,
   MailPage,
-  APIPage,
-  GridConfig,
   BotDetailPage,
-  KeyConfigPageRe,
-  SetReBalanceConfigPage
+  GridConfigPage,
+  ReConfigPage
 } from './pages/index'
 import Layout from './layout/mainLayout.jsx'
 
@@ -59,22 +57,6 @@ function App() {
             }
           />
           <Route
-            path="/api"
-            element={
-              <Layout>
-                <APIPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/grid-config"
-            element={
-              <Layout>
-                <GridConfig />
-              </Layout>
-            }
-          />
-          <Route
             path="/bot-detail"
             element={
               <Layout>
@@ -83,18 +65,18 @@ function App() {
             }
           />
           <Route
-            path="/api-reb"
+            path="/grid-config-comb"
             element={
               <Layout>
-                <KeyConfigPageRe />
+                <GridConfigPage />
               </Layout>
             }
           />
           <Route
-            path="/reb-config"
+            path="/re-config-comb"
             element={
               <Layout>
-                <SetReBalanceConfigPage />
+                <ReConfigPage />
               </Layout>
             }
           />

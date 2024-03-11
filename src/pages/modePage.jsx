@@ -25,7 +25,7 @@ const ModePage = () => {
 					</div>
 					<div className="mt-4 text-center">
 						<Link
-							to="/api"
+							to="/grid-config-comb"
 							className="inline-block py-2 px-4 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-lg shadow-md transition-colors duration-200">
 							This one!
 						</Link>
@@ -51,7 +51,7 @@ const ModePage = () => {
 					</div>
 					<div className="mt-4 text-center">
 						<Link
-							to="/api-reb"
+							to="/re-config-comb"
 							className="inline-block py-2 px-4 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-lg shadow-md transition-colors duration-200">
 							This one!
 						</Link>

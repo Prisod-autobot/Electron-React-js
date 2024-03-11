@@ -98,24 +98,33 @@ const BotDetailPage = () => {
 		tableInstance;
 
 	return (
-		<div className="container mx-auto px-4 pb-8 pt-2 text-gray-800">
+		<div className="container mx-auto px-4 pb-8 pt-8 text-gray-800">
 			<h1 className="text-xl md:text-2xl font-bold mb-4">Bot Details</h1>
-			<div className="mt-5">
+			<div className="mt-1">
 				{data ? (
-					<div className="space-y-1">
-						<p>ID: {data.dataValues.id}</p>
-						<p>Type Bot: {data.dataValues.type_bot}</p>
-						<p>Bot Name: {data.dataValues.bot_name}</p>
-						<p>
-							Status:{" "}
-							{data.dataValues.status ? "Active" : "Inactive"}
+					<div className="space-y-4 bg-white p-6 rounded-lg shadow-md">
+						<p className="text-md">
+							<span className="font-semibold">Type Bot:</span>
+							{"   "}
+							{data.dataValues.type_bot}
 						</p>
-						<div className="flex gap-2">
+						<p className="text-md">
+							<span className="font-semibold">Bot Name:</span>
+							{"   "}
+							{data.dataValues.bot_name}
+						</p>
+						<p className="text-md">
+							<span className="font-semibold">Status:</span>
+							{data.dataValues.status
+								? "   Active"
+								: "   Inactive"}
+						</p>
+						<div className="flex gap-2 mt-1">
 							<button
-								className={`border text-black p-2 ${
+								className={`text-white font-bold py-2 px-4 rounded-lg transition-colors ${
 									data.dataValues.status
-										? "border-gray-400 bg-red-200"
-										: "border-gray-400 bg-green-200"
+										? "bg-red-500 hover:bg-red-600"
+										: "bg-green-500 hover:bg-green-600"
 								}`}
 								onClick={() =>
 									clickUpdate(data.dataValues.bot_name)
@@ -123,7 +132,7 @@ const BotDetailPage = () => {
 								{data.dataValues.status ? "Stop" : "Start"}
 							</button>
 							<button
-								className="border border-gray-400 bg-red-200 text-black p-2"
+								className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors"
 								onClick={() =>
 									clickDelete(
 										data.dataValues.bot_name,
@@ -138,19 +147,19 @@ const BotDetailPage = () => {
 					<p>Loading...</p>
 				)}
 			</div>
-			<div className="overflow-x-auto">
-				<div className="bg-white shadow overflow-hidden border-b border-gray-200 mt-5">
-					<div className="max-h-[350px] min-h-[350px] p-1 bg-white">
+			<div className="overflow-x-auto mt-1">
+				<div className="bg-white shadow-md rounded-lg overflow-hidden">
+					<div className="p-4">
 						<table
 							{...getTableProps()}
 							className="min-w-full divide-y divide-gray-200">
-							<thead className="bg-gray-100 sticky top-0 z-10">
+							<thead className="bg-gray-50">
 								{headerGroups.map(headerGroup => (
 									<tr {...headerGroup.getHeaderGroupProps()}>
 										{headerGroup.headers.map(column => (
 											<th
 												{...column.getHeaderProps()}
-												className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
 												{column.render("Header")}
 											</th>
 										))}
@@ -162,12 +171,22 @@ const BotDetailPage = () => {
 								className="bg-white divide-y divide-gray-200">
 								{rows.map(row => {
 									prepareRow(row);
+									const isIdSellEmpty =
+										row.original.id_sell === null ||
+										row.original.id_sell === "";
 									return (
-										<tr {...row.getRowProps()}>
+										<tr
+											{...row.getRowProps({
+												className: `${
+													isIdSellEmpty
+														? "bg-red-100"
+														: "bg-white"
+												}`,
+											})}>
 											{row.cells.map(cell => (
 												<td
 													{...cell.getCellProps()}
-													className="px-4 py-2 whitespace-nowrap text-sm md:text-base">
+													className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
 													{cell.render("Cell")}
 												</td>
 											))}
@@ -177,7 +196,9 @@ const BotDetailPage = () => {
 							</tbody>
 						</table>
 						{tableView.length === 0 && (
-							<p className="p-4">No data available</p>
+							<p className="text-center py-4 text-gray-500">
+								No data available
+							</p>
 						)}
 					</div>
 				</div>
