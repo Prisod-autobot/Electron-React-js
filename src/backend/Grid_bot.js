@@ -140,7 +140,7 @@ class Grid_bot {
             status_sell: 'open',
             date_sell: order_info['datetime']
           };
-          await updateGrid_idbuy(item['id_buy'],data);
+          await updateGrid_idbuy(item['id_buy'], data);
         }
       });
 

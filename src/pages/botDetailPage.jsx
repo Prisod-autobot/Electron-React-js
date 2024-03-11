@@ -76,8 +76,11 @@ const BotDetailPage = () => {
 		}
 	}, []);
 
-	const clickUpdate = useCallback(update_name => {
-		ipcRenderer.send("update-grid", { botName: update_name });
+	const clickUpdate = useCallback((update_name, type_bot) => {
+		ipcRenderer.send("update-grid", {
+			botName: update_name,
+			typeBot: type_bot,
+		});
 	}, []);
 
 	const columns = useMemo(
@@ -127,7 +130,10 @@ const BotDetailPage = () => {
 										: "bg-green-500 hover:bg-green-600"
 								}`}
 								onClick={() =>
-									clickUpdate(data.dataValues.bot_name)
+									clickUpdate(
+										data.dataValues.bot_name,
+										data.dataValues.type_bot
+									)
 								}>
 								{data.dataValues.status ? "Stop" : "Start"}
 							</button>

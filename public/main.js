@@ -175,16 +175,35 @@ ipcMain.handle('get-one-data', async (event, data) => {
     }
 });
 
-ipcMain.on('update-grid', async (event, { botName }) => {
+ipcMain.on('update-grid', async (event, { botName, typeBot }) => {
     try {
         const kk = await updateBotData(botName);
-        if (kk) {
-            let grid_bot_instance = await new Grid_bot(botName)
+        switch (typeBot) {
+            case "Grid":
 
-            event.sender.send("updateDataSuccess", "Data updated successfully");
-        }
-        else {
-            event.sender.send("updateDataSuccess", "Data updated successfully");
+                if (kk) {
+                    //let grid_bot_instance = await new Grid_bot(botName)
+
+                    event.sender.send("updateDataSuccess", "Data updated successfully");
+                }
+                else {
+                    event.sender.send("updateDataSuccess", "Data updated successfully");
+                }
+                break;
+
+            case "Rebalance":
+                if (kk) {
+                    //let grid_bot_instance = await new Grid_bot(botName)
+
+                    event.sender.send("updateDataSuccess", "Data updated successfully");
+                }
+                else {
+                    event.sender.send("updateDataSuccess", "Data updated successfully");
+                }
+                break;
+
+            default:
+                console.log("Unknown value: ", botName);
         }
     } catch (error) {
         console.error(error);
