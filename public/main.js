@@ -6,6 +6,7 @@ const { insertGridBotData, insertRebBotData, findAllBotData, findOneByBotName, u
 const { findAllBotTransaction } = require('../src/controllers/grid_historyController');
 const { insertReBalanceData, deleteReBalanceData, } = require('../src/controllers/reBalanceController');
 const { findAllBot } = require("../src/controllers/grid_historyController");
+const { findAllBotRe } = require("../src/controllers/reBalanceHistoryController");
 
 require('../src/models/botModel')
 require('../src/models/gridHistoryModel')
@@ -53,6 +54,8 @@ function createWindow() {
     mainWindow.on("closed", function () {
         mainWindow = null;
     });
+
+    mainWindow.setMenuBarVisibility(false);
 
 }
 
@@ -154,6 +157,16 @@ ipcMain.handle('get-history-money', async (event, args) => {
     }
 });
 
+ipcMain.handle('get-re-history-money', async (event, args) => {
+    try {
+        const response = await findAllBotRe();
+        return response;
+    } catch (error) {
+        console.error('Error retrieving data:', error);
+        throw error;
+    }
+});
+
 
 ipcMain.handle('get-all-history-grid', async (event, data) => {
     try {
@@ -164,6 +177,7 @@ ipcMain.handle('get-all-history-grid', async (event, data) => {
         throw error;
     }
 });
+
 
 ipcMain.handle('get-one-data', async (event, data) => {
     try {

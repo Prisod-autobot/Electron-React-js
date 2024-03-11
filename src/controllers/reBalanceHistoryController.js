@@ -26,7 +26,7 @@ async function findAllBotTransaction(botName) {
     }));
 }
 
-async function findAllBot() {
+async function findAllBotRe() {
     return executeDbOperation(() => reBalanceHistory.findAll());
 }
 
@@ -73,24 +73,24 @@ async function transactionLogic(zoneIndex, botName, operation) {
 
 async function findLastTransactionBot(botName) {
     return executeDbOperation(async () => {
-      const lastTransaction = await reBalanceHistory.findOne({
-        where: { bot_name: botName }, // Filter by bot_name
-        order: [['createdAt', 'DESC']], // Order by createdAt descending (newest first)
-        limit: 1, // Limit to 1 result (last transaction)
-      });
-      
+        const lastTransaction = await reBalanceHistory.findOne({
+            where: { bot_name: botName }, // Filter by bot_name
+            order: [['createdAt', 'DESC']], // Order by createdAt descending (newest first)
+            limit: 1, // Limit to 1 result (last transaction)
+        });
 
-      return lastTransaction['dataValues']; // Return the last transaction
+
+        return lastTransaction['dataValues']; // Return the last transaction
     });
 }
 
-  
+
 
 module.exports = {
     insertreBalanceHistoryData,
     findOneByIdTransaction,
     findAllBotTransaction,
-    findAllBot,
+    findAllBotRe,
     findLastTransactionBot,
-   
+
 };

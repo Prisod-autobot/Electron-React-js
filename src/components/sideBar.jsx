@@ -69,7 +69,7 @@ const SideBar = () => {
 
 	return (
 		<div className="h-screen w-52 lg:w-64 bg-gray-50 p-5 border-r shadow-lg">
-			<h2 className="text-lg font-semibold text-gray-900">Electron</h2>
+			<h2 className="text-lg font-semibold text-gray-900">Auto-Bot</h2>
 			<div className="mt-10 flex flex-col gap-y-4">
 				{sidebarItems.map(({ name, to, Icon }) => (
 					<Link

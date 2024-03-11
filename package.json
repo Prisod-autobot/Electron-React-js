@@ -2,7 +2,7 @@
   "name": "main",
   "productName": "Auto-Bot",
   "version": "1.0.0",
-  "author":"Tight & DAZ Co.,Ltd",
+  "author": "Tight & DAZ Co.,Ltd",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -21,7 +21,7 @@
     "react-router-dom": "^6.21.3",
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
-    "recharts": "^2.12.1",
+    "recharts": "^2.12.2",
     "sequelize": "^6.35.2",
     "sqlite3": "5.1.6",
     "tailwindcss": "^3.4.1",
@@ -48,7 +48,6 @@
   "build": {
     "appId": "your.app.id",
     "productName": "Electron Trading App",
-    
     "win": {
       "target": "nsis",
       "icon": "../public/Electron_Logo.png"
@@ -62,7 +61,6 @@
       "node_modules/**/*",
       "src/**/*"
     ]
-  
   },
   "browserslist": {
     "production": [

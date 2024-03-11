@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
+import {
+	PieChart,
+	Pie,
+	Cell,
+	Legend,
+	Tooltip,
+	LineChart,
+	Line,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+} from "recharts";
 import { motion } from "framer-motion";
+
 const { ipcRenderer } = window.require("electron");
 
 const HomePage = () => {
@@ -20,21 +32,36 @@ const HomePage = () => {
 				const dataFromDatabase = await ipcRenderer.invoke(
 					"get-all-data"
 				);
-				const profitDaily = await ipcRenderer.invoke(
+				const profitGridDaily = await ipcRenderer.invoke(
 					"get-history-money"
 				);
-				console.log(dataFromDatabase);
+				const profitReDaily = await ipcRenderer.invoke(
+					"get-re-history-money"
+				);
+
+				// Merge profitGridDaily and profitReDaily
+				const profitDaily = [...profitGridDaily, ...profitReDaily];
+
 				// Process profitDaily to calculate daily profits
 				const dailySums = profitDaily.reduce((acc, curr) => {
-					const date = curr.date_sell; // Assuming date_sell is in 'YYYY-MM-DD' format
+					const date = new Date(
+						curr.dataValues.updatedAt
+					).toDateString(); // Convert to date string format "Mon Mar 11 2024"
 					if (!acc[date]) {
 						acc[date] = 0;
 					}
-					acc[date] += curr.price_sell;
+					// Check if price_sell is null or undefined and use 0 if so
+					const priceSell =
+						curr.dataValues.price_sell == null
+							? 0
+							: curr.dataValues.price_sell;
+					acc[date] += priceSell;
 					return acc;
 				}, {});
 
 				setDailyProfits(dailySums); // Update daily profits state
+
+				console.log(dailyProfits);
 
 				const formattedData = dataFromDatabase.map(bot => ({
 					...bot.dataValues,
@@ -45,6 +72,7 @@ const HomePage = () => {
 					(acc, curr) => acc + (curr.budget || 0),
 					0
 				);
+
 				setTotalBalance(total); // Update total balance state
 				setData(formattedData);
 
@@ -53,11 +81,13 @@ const HomePage = () => {
 					Grid: { true: 0, false: 0 },
 					Rebalance: { true: 0, false: 0 },
 				};
+
 				formattedData.forEach(bot => {
 					if (counts[bot.type_bot]) {
 						counts[bot.type_bot][bot.status] += 1;
 					}
 				});
+
 				setStatusCounts(counts);
 			} catch (error) {
 				console.error("Error fetching data from database:", error);
@@ -79,6 +109,13 @@ const HomePage = () => {
 		],
 	};
 
+	const lineChartData = Object.entries(dailyProfits).map(
+		([date, profit]) => ({
+			date,
+			profit,
+		})
+	);
+
 	return (
 		<motion.div
 			initial={{ opacity: 0 }}
@@ -89,6 +126,28 @@ const HomePage = () => {
 				<div className="flex flex-col w-1/2 gap-4">
 					<div className="basis-3/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">-Monthly Report-</p>
+						<LineChart
+							width={500}
+							height={300}
+							data={lineChartData}
+							margin={{
+								top: 5,
+								right: 5,
+								left: 5,
+								bottom: 5,
+							}}>
+							<CartesianGrid strokeDasharray="3 3" />
+							<XAxis dataKey="date" />
+							<YAxis />
+							<Tooltip />
+							<Legend />
+							<Line
+								type="monotone"
+								dataKey="profit"
+								stroke="#8884d8"
+								activeDot={{ r: 8 }}
+							/>
+						</LineChart>
 					</div>
 					<div className="basis-1/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">Total Balance</p>
@@ -98,7 +157,22 @@ const HomePage = () => {
 					</div>
 					<div className="basis-1/5 w-full bg-gray-50 shadow-re-don rounded-sm p-3">
 						<p className="font-mono text-lg">Daily Profit</p>
-						<p className="font-mono text-2xl text-center mt-2 text-green-500"></p>
+						{/* Check if dailyProfits is not empty and then map over its entries */}
+						{Object.keys(dailyProfits).length > 0 ? (
+							Object.entries(dailyProfits).map(
+								([date, profit]) => (
+									<p
+										key={date}
+										className="font-mono text-xl text-center mt-2 text-green-500">
+										{profit.toLocaleString()} $
+									</p>
+								)
+							)
+						) : (
+							<p className="font-mono text-2xl text-center mt-2 text-green-500">
+								0
+							</p>
+						)}
 					</div>
 				</div>
 				<div className="flex flex-col w-1/2 gap-4">

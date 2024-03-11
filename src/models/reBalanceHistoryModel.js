@@ -3,15 +3,11 @@ const db_connect = require('../db/connf');
 
 const ReBalanceHistory = db_connect.define(
   'HistoryReBalance',
-  { order_id: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-    
+  {
     bot_name: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     id_transaction: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -41,7 +37,7 @@ const ReBalanceHistory = db_connect.define(
       type: DataTypes.REAL,
       allowNull: false
     }
-    
+
   },
   {
     tableName: 're_balance_db',
