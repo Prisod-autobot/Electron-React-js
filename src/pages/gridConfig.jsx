@@ -50,7 +50,26 @@ const CombinedConfigPage = () => {
 
 	const handleChange = e => {
 		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
+		let updates = { [name]: value }; // Initialize with the current change
+
+		if (name === "zoneCalculator") {
+			// Adjust based on zoneCalculator value
+			if (value === "1") {
+				updates = {
+					...updates,
+					gridStep: "0",
+					gridQuantity: formData.gridQuantity,
+				}; // Keep gridQuantity, set gridStep to "0"
+			} else if (value === "2") {
+				updates = {
+					...updates,
+					gridQuantity: "0",
+					gridStep: formData.gridStep,
+				}; // Keep gridStep, set gridQuantity to "0"
+			}
+		}
+
+		setFormData(prevFormData => ({ ...prevFormData, ...updates }));
 	};
 
 	const handleKeyPress = e => {
@@ -118,14 +137,18 @@ const CombinedConfigPage = () => {
 	};
 
 	const isFormIncompleteTwo = () => {
-		// Add or remove fields based on your form's requirements
-		const requiredFields = [
-			"botName",
-			"upZone",
-			"lowZone",
-			"gridQuantity",
-			"gridStep",
-		];
+		// Basic required fields that are always needed
+		let requiredFields = ["botName", "upZone", "lowZone"];
+
+		// Conditionally add gridQuantity and gridStep based on zoneCalculator
+		if (formData.zoneCalculator !== "2") {
+			requiredFields.push("gridQuantity");
+		}
+		if (formData.zoneCalculator !== "1") {
+			requiredFields.push("gridStep");
+		}
+
+		// Check if any required field is empty
 		return requiredFields.some(field => formData[field].trim() === "");
 	};
 
@@ -490,17 +513,16 @@ const CombinedConfigPage = () => {
 										</div>
 									)}
 								</div>
-								<div className="relative flex-grow">
-									<input
-										id="gridQuantity"
-										name="gridQuantity"
-										type="text"
-										value={formData.gridQuantity}
-										onChange={handleChange}
-										onKeyDown={handleKeyPress}
-										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-									/>
-								</div>
+								<input
+									id="gridQuantity"
+									name="gridQuantity"
+									type="text"
+									value={formData.gridQuantity}
+									onChange={handleChange}
+									onKeyDown={handleKeyPress}
+									disabled={formData.zoneCalculator === "2"} // Disable if zoneCalculator is 2
+									className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+								/>
 							</div>
 							<div className="mb-4 flex items-center">
 								<div
@@ -530,6 +552,9 @@ const CombinedConfigPage = () => {
 										value={formData.gridStep}
 										onChange={handleChange}
 										onKeyDown={handleKeyPress}
+										disabled={
+											formData.zoneCalculator === "1"
+										} // Disable if zoneCalculator is 1
 										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 									/>
 								</div>
