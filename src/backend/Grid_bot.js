@@ -1,8 +1,5 @@
 const GridModel = require('../models/gridModel');
 
-const {
-  findOneByBotName, findOneByBotID
-} = require('../controllers/gridController.js');
 
 const {
   insertGridHistoryData,
@@ -132,7 +129,7 @@ class Grid_bot {
 
   async sell_and_check() {
     try {
-      let list = await list_wait_sell(this.botname);
+      const list = await list_wait_sell(this.botname);
       list.forEach(async (item) => {
         let zone = item['zone'];
         let price = await this.protocol.get_price();
@@ -140,10 +137,10 @@ class Grid_bot {
           let order_info = await this.protocol.placeOrder_sell(this.amount_sell, this.grid_zone_sell[zone]);
           let data = {
             id_sell: order_info['id'],
-            status_sell: 'closed',
+            status_sell: 'open',
             date_sell: order_info['datetime']
           };
-          await updateGrid_idbuy(data);
+          await updateGrid_idbuy(item['id_buy'],data);
         }
       });
 
