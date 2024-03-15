@@ -68,6 +68,20 @@ class Protocol {
       throw error;
     }
   }
+  async stop_loss_action(){
+    let [asset_symbol, cash_symbol] = this.symbol.split('/');
+    let wallet_info = await this.exchange.fetchBalance()
+    let asset = await wallet_info[asset_symbol]['free'] * 0.99
+    let order_info = await this.exchange.createOrder(this.symbol, 'market', 'sell', asset);
+    console.log(order_info)
+
+  }
+  async cancel_all_order(){
+    await this.exchange.cancelAllOrders()
+    console.log("ALL ORDER CANCEL")
+  }
+
+  
 
 
 }

@@ -27,12 +27,15 @@ class reBalance_bot {
         this.protocol = new Protocol(this.exchange_name, this.pair, this.apikey, this.secretkey);
         this.asset_value = this.budget * this.asset_ratio
         this.cash_value = this.budget * this.cash_ratio
-        
+        this.stop_loss = this.bot_info['stop_loss'];
       } catch (error) {
         console.error(error);
       } finally {
        
         await this.init_order()
+        await this.run_bot() 
+        await this.stop_loss_check()
+
       }
 
     })();
@@ -123,7 +126,16 @@ class reBalance_bot {
     }
 
   }
+  async stop_loss_check(){
+    let price = await this.protocol.get_price()
+    if(this.stop_loss<price){
+      this.protocol.cancel_all_order()
+      this.protocol.stop_loss_action()
+        
 
+
+    }
+  }
 
 
 }

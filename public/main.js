@@ -117,6 +117,7 @@ app.on("ready", () => {
                         cash_ratio: parseFloat(data.cash_ratio),
                         amount: parseFloat(data.amount),
                         difference: parseInt(data.difference, 10),
+                        stop_loss : parseFloat(data.stop_loss)
                     };
 
                     await insertReBalanceData(reBalanceConfig);

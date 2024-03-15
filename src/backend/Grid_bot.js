@@ -36,11 +36,13 @@ class Grid_bot {
         this.protocol = new Protocol(this.exchange_name, this.pair, this.apikey, this.secretkey);
         this.grid_zone_buy = await this.create_zone_buy(); // Initialize grid_zone_buy
         this.grid_zone_sell = await this.create_zone_sell();
-
+        this.stop_loss_low = this.grid_zone_buy[0] 
+        this.stop_loss_high = this.grid_zone_buy[-1]
       } catch (error) {
         console.error(error);
       } finally {
         await this.run_bot()
+        await this.stop_loss()
       }
 
     })();
@@ -157,6 +159,15 @@ class Grid_bot {
       console.error(error)
     }
   }
+
+  async stop_loss(){
+    let price = await this.protocol.get_price();
+    if(price <this.stop_loss_low || price >this.stop_loss_high){
+      await this.protocol.cancel_all_order()
+      await this.protocol.stop_loss_action()
+    }
+  }
+
 
   async run_bot() {
     try {

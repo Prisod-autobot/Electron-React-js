@@ -18,6 +18,7 @@ const CombinedConfigRePage = () => {
 		cash_ratio: "",
 		difference: "",
 		pair: "BTC/USDT",
+		stop_loss : ""
 	});
 
 	const nextStep = () => setStep(step + 1);
@@ -86,7 +87,6 @@ const CombinedConfigRePage = () => {
 	const tooltips = {
 		apiKey: "Your Bot Name",
 		secretKey: "Up zone",
-		amount: "Low zone",
 		budget: "QTY",
 		exchangeName: "Step",
 		botName: "Your Bot Name",
@@ -94,6 +94,7 @@ const CombinedConfigRePage = () => {
 		cash_ratio: "cash",
 		difference: "diff",
 		pair: "pair",
+		stop_loss :"stop loss"
 	};
 
 	const pageVariants = {
@@ -109,7 +110,7 @@ const CombinedConfigRePage = () => {
 
 	const isFormIncomplete = () => {
 		// Add or remove fields based on your form's requirements
-		const requiredFields = ["apiKey", "secretKey", "amount", "budget"];
+		const requiredFields = ["apiKey", "secretKey", "budget"];
 		return requiredFields.some(field => formData[field].trim() === "");
 	};
 
@@ -214,44 +215,7 @@ const CombinedConfigRePage = () => {
 									</button>
 								</div>
 							</div>
-							<div className="mb-4 flex items-center">
-								<div
-									onMouseEnter={() =>
-										setVisibleTooltip("amount")
-									}
-									onMouseLeave={() => setVisibleTooltip("")}
-									className="relative">
-									<label
-										htmlFor="amount"
-										className="block underline dotted underline-offset-2 w-[80px] text-gray-700 text-sm font-bold mr-3 capitalize cursor-help">
-										Amount:
-									</label>
-									{visibleTooltip === "amount" && (
-										<div className="absolute z-10 w-64 p-4 -mt-2 ml-12 bg-white border border-gray-200 shadow-lg rounded-lg">
-											<p className="text-sm text-gray-700">
-												{tooltips.amount}
-											</p>
-										</div>
-									)}
-								</div>
-								<div className="relative flex-grow">
-									<input
-										id="amount"
-										name="amount"
-										type="text"
-										onKeyDown={handleKeyPress}
-										value={formData.amount}
-										onChange={handleChange}
-										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-									/>
-									<button
-										type="button"
-										onClick={() => handlePaste("amount")}
-										className="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-1 bg-green-50 rounded text-sm">
-										Paste
-									</button>
-								</div>
-							</div>
+							
 							<div className="mb-4 flex items-center">
 								<div
 									onMouseEnter={() =>
@@ -464,6 +428,38 @@ const CombinedConfigRePage = () => {
 										name="difference"
 										type="text"
 										value={formData.difference}
+										onChange={handleChange}
+										onKeyDown={handleKeyPress}
+										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+									/>
+								</div>
+							</div>
+							<div className="mb-4 flex items-center">
+								<div
+									onMouseEnter={() =>
+										setVisibleTooltip("stop_loss")
+									}
+									onMouseLeave={() => setVisibleTooltip("")}
+									className="relative">
+									<label
+										htmlFor="stop_loss"
+										className="block underline dotted underline-offset-2 w-[80px] text-gray-700 text-sm font-bold mr-3 capitalize cursor-help">
+										stop loss:
+									</label>
+									{visibleTooltip === "stop_loss" && (
+										<div className="absolute z-10 w-64 p-4 -mt-2 ml-12 bg-white border border-gray-200 shadow-lg rounded-lg">
+											<p className="text-sm text-gray-700">
+												{tooltips.stop_loss}
+											</p>
+										</div>
+									)}
+								</div>
+								<div className="relative flex-grow">
+									<input
+										id="stop_loss"
+										name="stop_loss"
+										type="text"
+										value={formData.stop_loss}
 										onChange={handleChange}
 										onKeyDown={handleKeyPress}
 										className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

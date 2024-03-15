@@ -1,0 +1,18 @@
+{
+    info: {
+      retCode: '0',
+      retMsg: 'OK',
+      result: { list: [Array] },
+      retExtInfo: {},
+      time: '1710501846990'     
+    },
+    timestamp: 1710501846990,
+    datetime: '2024-03-15T11:24:06.990Z',
+    BTC: { free: 5.7e-8, used: 0, total: 5.7e-8 },
+    USDT: { free: 39.9326818893, used: 0, total: 39.9326818893 },
+    WLD: { free: 0.00691, used: 0, total: 0.00691 },
+    XRP: { free: 0.12351, used: 0, total: 0.12351 },
+    free: { BTC: 5.7e-8, USDT: 39.9326818893, WLD: 0.00691, XRP: 0.12351 },
+    used: { BTC: 0, USDT: 0, WLD: 0, XRP: 0 },
+    total: { BTC: 5.7e-8, USDT: 39.9326818893, WLD: 0.00691, XRP: 0.12351 }
+  }

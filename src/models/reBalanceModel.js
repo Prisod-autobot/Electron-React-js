@@ -48,6 +48,10 @@ const ReBalance = db_connect.define(
     difference: {
       type: DataTypes.REAL,
       allowNull: false
+    },
+    stop_loss:{ 
+      type: DataTypes.REAL,
+      allowNull: true
     }
   },
   {
